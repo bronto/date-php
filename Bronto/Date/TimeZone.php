@@ -96,7 +96,7 @@ abstract class TimeZone {
 		}
 
 		if (strtoupper($zone) == self::UTC_ZONE_ID) {
-			return self::utc();
+			return static::utc();
 		}
 
 		$zoneType = $details['zone_type'];

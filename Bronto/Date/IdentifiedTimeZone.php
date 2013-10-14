@@ -46,7 +46,7 @@ class IdentifiedTimeZone extends TimeZone {
 	 */
 	public static function utc() {
 		if (!self::$UTC) {
-			self::$UTC = self::fromValidatedString(TimeZone::UTC_ZONE_ID);
+			self::$UTC = static::fromValidatedString(TimeZone::UTC_ZONE_ID);
 		}
 
 		return self::$UTC;
@@ -65,7 +65,7 @@ class IdentifiedTimeZone extends TimeZone {
 		$id = \Bronto\Util\Preconditions::requireString($id, '$id');
 		$timeZone = TimeZone::parse($id);
 
-		if ($timeZone instanceof self) {
+		if ($timeZone instanceof static) {
 			return $timeZone;
 		}
 
@@ -97,7 +97,7 @@ class IdentifiedTimeZone extends TimeZone {
 		$zone = \Bronto\Util\Preconditions::requireString($zone, '$zone');
 		$timeZone = TimeZone::parse($zone);
 
-		if ($timeZone instanceof self) {
+		if ($timeZone instanceof static) {
 			return $timeZone;
 		}
 
@@ -116,7 +116,7 @@ class IdentifiedTimeZone extends TimeZone {
 	 * @throws \InvalidArgumentException if $zone is not a valid time zone id
 	 */
 	protected static function fromValidatedString($zone) {
-		$timeZone = new self();
+		$timeZone = new static();
 
 		try {
 			$dateTimeZone = new \DateTimeZone($zone);

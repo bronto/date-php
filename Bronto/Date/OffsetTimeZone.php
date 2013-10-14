@@ -65,7 +65,7 @@ class OffsetTimeZone extends TimeZone {
 		$zone = \Bronto\Util\Preconditions::requireString($zone, '$zone');
 		$timeZone = TimeZone::parse($zone);
 
-		if ($timeZone instanceof self) {
+		if ($timeZone instanceof static) {
 			return $timeZone;
 		}
 
@@ -96,7 +96,7 @@ class OffsetTimeZone extends TimeZone {
 	 * zone
 	 */
 	protected static function fromValidatedString($zone) {
-		$timeZone = new self();
+		$timeZone = new static();
 		$tmpDate = new \DateTime($zone);
 		$timeZone->dateTimeZone = $tmpDate->getTimezone();
 		return $timeZone;

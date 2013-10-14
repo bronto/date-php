@@ -237,7 +237,7 @@ class DateTime {
 	 * @return \Bronto\Date\DateTime
 	 */
 	public static function fromTimestamp($timestamp, $timeZone = null) {
-		return self::fromMicrosTimestamp($timestamp, 0, $timeZone);
+		return static::fromMicrosTimestamp($timestamp, 0, $timeZone);
 	}
 
 	/**
@@ -267,7 +267,7 @@ class DateTime {
 		$millis = $millisTimestamp - ($timestamp * self::MILLIS_PER_SECOND);
 		// calculate number of microseconds elapsed since $timestamp instant
 		$micros = $millis * self::MICROS_PER_MILLI;
-		return self::fromMicrosTimestamp($timestamp, $micros, $timeZone);
+		return static::fromMicrosTimestamp($timestamp, $micros, $timeZone);
 	}
 
 	/**
@@ -325,7 +325,7 @@ class DateTime {
 		/***************************** WARNING ********************************/
 		/***************************** WARNING ********************************/
 		/***************************** WARNING ********************************/
-		$dateTime = new self();
+		$dateTime = new static();
 		$dateTime->timestamp = $timestamp;
 		$dateTime->micros = $micros;
 		$dateTime->timeZone = $timeZone;
@@ -445,7 +445,7 @@ class DateTime {
 		$dateString = sprintf('%04d-%02d-%02d %02d:%02d:%02d %s', $year, $month, $day, $hour, $minute, $second, $timeZone->getName());
 		$dateTime = new \DateTime($dateString);
 		$timestamp = Utils::extractTimestamp($dateTime);
-		$result = self::fromMicrosTimestamp($timestamp, $micros, $timeZone);
+		$result = static::fromMicrosTimestamp($timestamp, $micros, $timeZone);
 
 		// If the resulting time is different from the time passed in then we
 		// know PHP has adjusted due to daylight savings transitions.
@@ -472,7 +472,7 @@ class DateTime {
 	 * @return \Bronto\Date\DateTime
 	 */
 	public static function createFrom($date) {
-		if ($date instanceof self) {
+		if ($date instanceof static) {
 			return $date;
 		}
 
@@ -480,14 +480,14 @@ class DateTime {
 			// Note: Do NOT call $date->getTimestamp(). See [1.2 Timestamp
 			// corruption] for more details.
 			$timestamp = Utils::extractTimestamp($date);
-			return self::fromTimestamp($timestamp, $date->getTimezone()->getName());
+			return static::fromTimestamp($timestamp, $date->getTimezone()->getName());
 		}
 
 		if ($date instanceof \Date) {
 			// The safest thing to do is convert the \Date object to a string
 			// and then parse it back into a \Bronto\Date\DateTime
 			$dateString = $date->getDate('Y-m-d\TH:i:s') . " {$date->getLongTZ()}";
-			return self::parse($dateString, 'Y-m-d\TH:i:s e');
+			return static::parse($dateString, 'Y-m-d\TH:i:s e');
 		}
 
 		$type = gettype($date);
@@ -517,7 +517,7 @@ class DateTime {
 		list($micros, $seconds) = explode(" ", microtime(false));
 		$micros = intval(substr($micros, 2, 6));
 		$seconds = intval($seconds);
-		return self::fromMicrosTimestamp($seconds, $micros, $timeZone);
+		return static::fromMicrosTimestamp($seconds, $micros, $timeZone);
 	}
 
 	/**
@@ -594,7 +594,7 @@ class DateTime {
 		$tmpDate = clone $this->dateTime;
 		$tmpDate->modify($modify);
 		$timestamp = Utils::extractTimestamp($tmpDate);
-		return self::fromMicrosTimestamp($timestamp, $this->getMicrosOfSecond(), $this->getTimeZone());
+		return static::fromMicrosTimestamp($timestamp, $this->getMicrosOfSecond(), $this->getTimeZone());
 	}
 
 	/**
@@ -944,7 +944,7 @@ class DateTime {
 	 */
 	public function plusMilliseconds($millis) {
 		$millis = \Bronto\Util\Preconditions::requireInt($millis, '$millis');
-		return self::plusMicroseconds($millis * self::MICROS_PER_MILLI);
+		return static::plusMicroseconds($millis * self::MICROS_PER_MILLI);
 	}
 
 	/**
@@ -1009,7 +1009,7 @@ class DateTime {
 		// current timestamp + additional seconds
 		$timestamp = $this->getTimestamp() + $seconds;
 
-		return self::fromMicrosTimestamp($timestamp, $micros, $this->getTimeZone());
+		return static::fromMicrosTimestamp($timestamp, $micros, $this->getTimeZone());
 	}
 
 	/**
@@ -1070,8 +1070,8 @@ class DateTime {
 		$month = \Bronto\Util\Preconditions::requireInt($month, '$month');
 		$day = \Bronto\Util\Preconditions::requireInt($day, '$day');
 
-		self::validateMonth($month);
-		self::validateDayOfMonth($year, $month, $day);
+		static::validateMonth($month);
+		static::validateDayOfMonth($year, $month, $day);
 
 		if ($year == $this->getYear() &&
 				$month == $this->getMonthOfYear() &&
@@ -1087,7 +1087,7 @@ class DateTime {
 		}
 
 		$timestamp = Utils::extractTimestamp($tmpDate);
-		return self::fromMicrosTimestamp($timestamp, $this->getMicrosOfSecond(), $this->getTimeZone());
+		return static::fromMicrosTimestamp($timestamp, $this->getMicrosOfSecond(), $this->getTimeZone());
 	}
 
 	/**
@@ -1183,7 +1183,7 @@ class DateTime {
 	 */
 	public function withMonthOfYear($month) {
 		$month = \Bronto\Util\Preconditions::requireInt($month, '$month');
-		self::validateMonth($month);
+		static::validateMonth($month);
 
 		$thisMonthOfYear = $this->getMonthOfYear();
 		if ($month == $thisMonthOfYear) {
@@ -1219,7 +1219,7 @@ class DateTime {
 	 */
 	public function withDayOfMonth($day) {
 		$day = \Bronto\Util\Preconditions::requireInt($day, '$day');
-		self::validateDayOfMonth($this->getYear(), $this->getMonthOfYear(), $day);
+		static::validateDayOfMonth($this->getYear(), $this->getMonthOfYear(), $day);
 
 		$thisDayOfMonth = $this->getDayOfMonth();
 		if ($day == $thisDayOfMonth) {
@@ -1292,7 +1292,7 @@ class DateTime {
 		}
 
 		$timestamp = Utils::extractTimestamp($tmpDate);
-		$dateTime = self::fromMicrosTimestamp($timestamp, $microsecond, $this->getTimeZone());
+		$dateTime = static::fromMicrosTimestamp($timestamp, $microsecond, $this->getTimeZone());
 		// If the resulting time is different from the time passed in then we
 		// know PHP has adjusted due to daylight savings transitions.
 		if ($dateTime->getHourOfDay() !== $hour || $dateTime->getMinuteOfHour() !== $minute) {
@@ -1410,7 +1410,7 @@ class DateTime {
 			return $this;
 		}
 
-		return self::fromMicrosTimestamp($this->getTimestamp(), $this->getMicrosOfSecond(), $timeZone);
+		return static::fromMicrosTimestamp($this->getTimestamp(), $this->getMicrosOfSecond(), $timeZone);
 	}
 
 	/**
@@ -1558,7 +1558,7 @@ class DateTime {
 	 * @return boolean if this datetime is after now
 	 */
 	public function isAfterNow() {
-		return $this->isAfter(self::now());
+		return $this->isAfter(static::now());
 	}
 
 	/**
@@ -1581,7 +1581,7 @@ class DateTime {
 	 * @return boolean if this datetime is before now
 	 */
 	public function isBeforeNow() {
-		return $this->isBefore(self::now());
+		return $this->isBefore(static::now());
 	}
 
 	/**
@@ -1607,8 +1607,6 @@ class DateTime {
 	 * @throw \InvalidArgumentException if $type is not a string
 	 * @throws \InvalidArgumentException if $type is not a value defined in
 	 * \Bronto\Date\Type
-	 * @throws InvalidArgumentException if $type is Type::LEGACY_DATE and the
-	 * time zone of this datetime is not an identified time zone
 	 *
 	 * @return mixed an object representing this DateTime object, type dictated
 	 * by $type argument

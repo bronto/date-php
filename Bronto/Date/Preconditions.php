@@ -57,7 +57,7 @@ class Preconditions {
 		}
 
 		if (!is_string($timeZone)) {
-			throw new \InvalidArgumentException("$argumentName must a Bronto\\Date\\TimeZone object or a time zone string");
+			throw new \InvalidArgumentException("$argumentName must a Bronto\\Date\\TimeZone object or a time zone string [\$timeZone = " . print_r($timeZone, true));
 		}
 
 		return TimeZone::parse($timeZone);

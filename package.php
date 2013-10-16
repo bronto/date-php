@@ -62,7 +62,7 @@ spl_autoload_register(
 error_reporting(E_ALL & ~E_DEPRECATED);
 PEAR::setErrorHandling(PEAR_ERROR_DIE);
 
-$release_version = '1.0.0';
+$release_version = '1.0.1';
 $release_state   = 'stable';
 $release_notes   = 'Initial release';
 $description = 'bronto/Date provides an intuitive and easy-to-use API for date/datetime work in PHP.';

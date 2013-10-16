@@ -458,7 +458,7 @@ class DateTime {
 
 	/**
 	 * Create a DateTime from an alternative datetime implementation. Supported
-	 * datetime implementations: \DateTime and \Date
+	 * datetime implementations: \Bronto\Date\DateTime and \DateTime
 	 *
 	 * If a \Bronto\Date\DateTime object is passed in, the same object is returned.
 	 *
@@ -481,13 +481,6 @@ class DateTime {
 			// corruption] for more details.
 			$timestamp = Utils::extractTimestamp($date);
 			return static::fromTimestamp($timestamp, $date->getTimezone()->getName());
-		}
-
-		if ($date instanceof \Date) {
-			// The safest thing to do is convert the \Date object to a string
-			// and then parse it back into a \Bronto\Date\DateTime
-			$dateString = $date->getDate('Y-m-d\TH:i:s') . " {$date->getLongTZ()}";
-			return static::parse($dateString, 'Y-m-d\TH:i:s e');
 		}
 
 		$type = gettype($date);

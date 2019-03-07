@@ -1,5 +1,7 @@
 # Bronto\Date #
 
+**This project is no longer maintained and should be used for historical purposes only.**
+
 Bronto\Date's goal is provide an intuitive and easy-to-use API for date/datetime work in PHP. Dates, datetimes, time zones and timestamps can be confusing and difficult to work with, so it is important for any API dealing with these topics to be clear and well documented. Bronto\Date's api is modeled after [Joda-Time](http://www.joda.org/joda-time/) in java and adapted for PHP.
 
 ## Prerequisites ##
